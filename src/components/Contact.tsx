@@ -45,6 +45,18 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleInputBlur = () => {
+    // When virtual keyboard dismisses on mobile, smoothly return viewport to its real position
+    window.scrollTo({
+      top: window.scrollY,
+      left: 0,
+      behavior: "smooth",
+    });
+    setTimeout(() => {
+      window.scrollTo(0, window.scrollY);
+    }, 150);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
@@ -186,6 +198,7 @@ const Contact = () => {
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
+                  onBlur={handleInputBlur}
                   data-cursor="disable"
                 />
               </div>
@@ -200,6 +213,7 @@ const Contact = () => {
                   placeholder="Your Email (for reply)"
                   value={formData.email}
                   onChange={handleChange}
+                  onBlur={handleInputBlur}
                   data-cursor="disable"
                 />
               </div>
@@ -214,6 +228,7 @@ const Contact = () => {
                   placeholder="Your Message..."
                   value={formData.message}
                   onChange={handleChange}
+                  onBlur={handleInputBlur}
                   data-cursor="disable"
                 ></textarea>
               </div>

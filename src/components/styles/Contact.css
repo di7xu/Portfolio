@@ -170,10 +170,11 @@ a.contact-social:hover {
   padding: 12px 16px;
   color: #ffffff;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 16px;
   outline: none;
   transition: all 0.25s ease;
   box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
 }
 
 .form-group input:focus,
@@ -296,12 +297,12 @@ a.contact-social:hover {
   }
   .form-group input,
   .form-group textarea {
-    padding: 10px 12px;
-    font-size: 13px;
-    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 16px !important;
+    border-radius: 10px;
   }
   .form-group textarea {
-    min-height: 75px;
+    min-height: 85px;
   }
   .submit-btn {
     width: 100%;
