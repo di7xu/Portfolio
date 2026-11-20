@@ -1,5 +1,10 @@
+import { useEffect } from "react";
 import "./styles/Career.css";
 import { config } from "../config";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const getDisplayYear = (period: string) => {
   if (period.includes("Present")) return "NOW";
@@ -10,6 +15,61 @@ const getDisplayYear = (period: string) => {
 };
 
 const Career = () => {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Heading slide-up
+      gsap.fromTo(
+        ".career-section h2",
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".career-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      // 2. Timeline vertical expansion on scroll
+      gsap.to(".career-timeline", {
+        maxHeight: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".career-info",
+          start: "top 75%",
+          end: "bottom 80%",
+          scrub: 0.5,
+        },
+      });
+
+      // 3. Individual career/experience boxes slide-up when entering view
+      const boxes = gsap.utils.toArray<HTMLElement>(".career-info-box");
+      boxes.forEach((box) => {
+        gsap.fromTo(
+          box,
+          { opacity: 0, y: 45 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: box,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="career-section section-container">
       <div className="career-container">

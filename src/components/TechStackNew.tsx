@@ -1,4 +1,9 @@
+import { useEffect } from "react";
 import "./styles/TechStackNew.css";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface TechItem {
   name: string;
@@ -72,6 +77,47 @@ const techStack: TechItem[][] = [
 ];
 
 const TechStackNew = () => {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Heading slide-up
+      gsap.fromTo(
+        ".techstack-content h2",
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".techstack-content",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      // 2. Pyramid rows slide-up with smooth stagger
+      gsap.fromTo(
+        ".techstack-row",
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".techstack-pyramid",
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="techstack-new">
       {/* Video Background */}

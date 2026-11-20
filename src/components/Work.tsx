@@ -10,85 +10,102 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Work = () => {
   useEffect(() => {
-    // Initial setup
     const isMobileOrTablet = () => window.innerWidth <= 1024;
 
-    let translateX: number = 0;
-    let timeline: gsap.core.Timeline | null = null;
-
-    function setTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      if (box.length === 0) return;
-      const workContainer = document.querySelector(".work-container");
-      if (!workContainer || !box[0].parentElement) return;
-
-      const rectLeft = workContainer.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement.getBoundingClientRect().width;
-      const padding: number =
-        parseInt(window.getComputedStyle(box[0]).padding) / 2 || 0;
-      translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
-    }
-
-    function initScroll() {
-      if (isMobileOrTablet()) {
-        if (timeline) {
-          timeline.kill();
-          timeline = null;
+    const ctx = gsap.context(() => {
+      // 1. Heading slide-up animation
+      gsap.fromTo(
+        ".work-section h2",
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".work-section",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
         }
-        ScrollTrigger.getById("work")?.kill();
-        gsap.set(".work-flex", { clearProps: "all" });
-        gsap.set(".work-section", { clearProps: "all" });
-        return;
+      );
+
+      // 2. Mobile/Tablet: individual project cards slide-up as scrolled down
+      if (isMobileOrTablet()) {
+        const boxes = gsap.utils.toArray<HTMLElement>(".work-box");
+        boxes.forEach((box) => {
+          gsap.fromTo(
+            box,
+            { opacity: 0, y: 45 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: box,
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
+        });
+      } else {
+        // Desktop: horizontal scroll pinning
+        let translateX: number = 0;
+        function setTranslateX() {
+          const box = document.getElementsByClassName("work-box");
+          if (box.length === 0) return;
+          const workContainer = document.querySelector(".work-container");
+          if (!workContainer || !box[0].parentElement) return;
+
+          const rectLeft = workContainer.getBoundingClientRect().left;
+          const rect = box[0].getBoundingClientRect();
+          const parentWidth = box[0].parentElement.getBoundingClientRect().width;
+          const padding: number =
+            parseInt(window.getComputedStyle(box[0]).padding) / 2 || 0;
+          translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
+        }
+
+        setTranslateX();
+
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".work-section",
+            start: "top top",
+            end: () => `+=${translateX}`,
+            scrub: 1,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            id: "work",
+            invalidateOnRefresh: true,
+          },
+        });
+
+        timeline.to(".work-flex", {
+          x: () => -translateX,
+          ease: "none",
+        });
+
+        ScrollTrigger.refresh();
       }
-
-      setTranslateX();
-
-      if (timeline) {
-        timeline.kill();
-        ScrollTrigger.getById("work")?.kill();
-      }
-
-      timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".work-section",
-          start: "top top",
-          end: () => `+=${translateX}`,
-          scrub: 1,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          id: "work",
-          invalidateOnRefresh: true,
-        },
-      });
-
-      timeline.to(".work-flex", {
-        x: () => -translateX,
-        ease: "none",
-      });
-
-      ScrollTrigger.refresh();
-    }
-
-    initScroll();
+    });
 
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        initScroll();
+        ScrollTrigger.refresh();
       }, 150);
     };
 
     window.addEventListener("resize", handleResize);
 
-    // Clean up
     return () => {
       clearTimeout(resizeTimer);
       window.removeEventListener("resize", handleResize);
-      timeline?.kill();
-      ScrollTrigger.getById("work")?.kill();
+      ctx.revert();
     };
   }, []);
   return (
