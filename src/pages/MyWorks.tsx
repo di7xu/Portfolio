@@ -17,7 +17,8 @@ const MyWorks = () => {
 
       <div className="myworks-grid">
         {config.projects.map((project, index) => {
-          const isInternalLink = Boolean(project.link?.startsWith("/"));
+          const targetUrl = project.link || project.githubUrl;
+          const isInternalLink = Boolean(targetUrl?.startsWith("/"));
           const cardContent = (
             <>
               <div className="myworks-card-number">0{index + 1}</div>
@@ -32,7 +33,7 @@ const MyWorks = () => {
                 {project.downloadUrl && (
                   <div style={{ marginTop: "12px" }}>
                     <span className="work-download-apk-btn">
-                      📥 Download APK (v4.0.2)
+                      📥 {project.downloadLabel || "Download APK"}
                     </span>
                   </div>
                 )}
@@ -40,30 +41,42 @@ const MyWorks = () => {
             </>
           );
 
-          if (isInternalLink) {
+          if (isInternalLink && targetUrl) {
             return (
               <Link
                 className="myworks-card"
                 key={project.id}
                 data-cursor="disable"
-                to={project.link || "/"}
+                to={targetUrl}
               >
                 {cardContent}
               </Link>
             );
           }
 
+          if (targetUrl) {
+            return (
+              <a
+                className="myworks-card"
+                key={project.id}
+                data-cursor="disable"
+                href={targetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {cardContent}
+              </a>
+            );
+          }
+
           return (
-            <a
+            <div
               className="myworks-card"
               key={project.id}
               data-cursor="disable"
-              href={project.link || undefined}
-              target={project.link ? "_blank" : undefined}
-              rel={project.link ? "noopener noreferrer" : undefined}
             >
               {cardContent}
-            </a>
+            </div>
           );
         })}
       </div>
