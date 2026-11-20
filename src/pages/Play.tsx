@@ -52,17 +52,20 @@ Profile:
   - AI: Generative AI, AI-assisted Development, Prompt Engineering.
   - Creative: Canva, Video Editing (CapCut, VN).
   - Tools: Git, GitHub, VS Code, Android Studio.
-- Public GitHub: github.com/dk2017044.
+- Public GitHub: github.com/di7xu.
 
 Portfolio projects:
-- ElectroKit – Electronics Toolkit: An Android app for electronics students featuring number system conversion, resistor color code, SMD resistor code, capacitor and inductor codes, Ohm's Law, power, LED resistor, and series/parallel calculators. Direct APK Download link: https://github.com/dk2017044/ElectroKit/raw/main/Build_Releases_APK/ElectroKit_v4.0.2.apk
-- Python Turtle Projects: Creative graphics and programming experiments made while learning Python.
+- CampusCare: Unified AI campus grievance and student safety platform with native Android student app.
+- The Royal Rasoi: Luxury fine-dining platform with AI concierge Shahi Khansama.
+- ElectroKit – Electronics Toolkit: An Android app for electronics students featuring number system conversion, resistor color code, SMD resistor code, capacitor and inductor codes, Ohm's Law, power, and series/parallel calculators.
+- AutoClip (Clipper): Automated AI pipeline for livestream highlight slicing and 4K vertical Shorts rendering.
+- CoderGift: Aesthetic interactive birthday surprise website with Web Audio API procedural Lo-Fi music and mic candle blowing.
 - Practical Electronics & Circuits: Hands-on electronics and circuit prototyping experiments.
 - RedxChess: The interactive chess experience on this portfolio page.
 
 Contact and links:
 - Email: dk2017044@hotmail.com
-- GitHub: https://github.com/dk2017044/
+- GitHub: https://github.com/di7xu
 - LinkedIn: https://www.linkedin.com/in/di7xu
 - Instagram: https://www.instagram.com/di7xu
 - YouTube: https://www.youtube.com/@di7xu
