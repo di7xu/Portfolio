@@ -364,10 +364,12 @@
   align-items: center;
   text-align: center;
   gap: 4px;
+  max-width: 90vw;
+  box-sizing: border-box;
 }
 
 .landing-info h3 {
-  font-size: 18px;
+  font-size: clamp(14px, 1.4vw, 20px);
   letter-spacing: 3px;
   font-weight: 400;
   color: var(--accentColor);
@@ -379,22 +381,27 @@
   margin: 0;
   font-family: "Geist", sans-serif;
   font-weight: 700;
-  font-size: 26px;
+  font-size: clamp(18px, 2.2vw, 36px);
   line-height: 1.25;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   color: #ffffff;
   display: block;
-  white-space: nowrap;
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 h2.landing-info-h2 {
   color: var(--accentColor);
-  font-size: 32px;
+  font-size: clamp(22px, 2.8vw, 44px);
   margin: 0;
   font-family: "Geist", sans-serif;
   font-weight: 800;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .landing-h2-1 {
@@ -488,41 +495,56 @@ h2.landing-info-h2 {
   }
 
   .landing-intro {
-    top: 40%;
+    top: 45%;
     left: auto;
-    right: 66%;
+    right: 58%;
     transform: translate(0%, -50%);
+    max-width: 38vw;
+    box-sizing: border-box;
+  }
+
+  .landing-intro h1 {
+    font-size: clamp(30px, 3.2vw, 55px);
+    line-height: 1.15;
+    overflow-wrap: break-word;
   }
 
   .landing-info {
     bottom: auto;
-    top: 51%;
+    top: 52%;
     z-index: inherit;
     text-align: left;
     align-items: flex-start;
     transform: translate(0%, -50%);
     right: auto;
-    left: 66%;
+    left: 58%;
+    max-width: 38vw;
+    box-sizing: border-box;
+  }
+
+  .landing-info h2 {
+    font-size: clamp(20px, 2.2vw, 42px);
+    line-height: 1.25;
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  h2.landing-info-h2 {
+    font-size: clamp(26px, 2.8vw, 52px);
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: break-word;
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1400px) {
   .landing-intro {
-    top: 40%;
-    left: auto;
-    right: 70%;
-    transform: translate(0%, -50%);
+    right: 62%;
   }
 
   .landing-info {
-    bottom: auto;
-    top: 51%;
-    z-index: inherit;
-    text-align: left;
-    align-items: flex-start;
-    transform: translate(0%, -50%);
-    right: auto;
-    left: 70%;
+    left: 62%;
   }
 }
 

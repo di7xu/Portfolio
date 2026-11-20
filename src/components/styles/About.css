@@ -7,34 +7,43 @@
   opacity: 1;
   height: auto;
   width: var(--cWidth);
+  max-width: var(--cMaxWidth);
   margin: auto;
+  box-sizing: border-box;
 }
+
 .about-container-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
+  box-sizing: border-box;
 }
+
 .about-me {
   padding: 40px 0px;
   padding-bottom: 0;
   width: 100%;
-  max-width: calc(100% - 15px);
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 .about-me h3 {
-  font-size: 18px;
+  font-size: clamp(16px, 1.8vw, 22px);
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: clamp(3px, 0.4vw, 6px);
   font-weight: 400;
   color: var(--accentColor);
   margin-bottom: 15px;
 }
 
 .about-me p {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 26px;
-  letter-spacing: 0.5px;
-  word-spacing: 2px;
+  font-size: clamp(16px, 1.35vw, 22px);
+  font-weight: 500;
+  line-height: 1.65;
+  letter-spacing: 0.3px;
+  word-spacing: 1px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .about-me .split-word {
@@ -43,7 +52,7 @@
 }
 
 .about-me .split-line {
-  display: block;
+  display: inline;
 }
 
 @media only screen and (min-width: 600px) {
@@ -51,39 +60,32 @@
     justify-content: center;
   }
   .about-me {
-    width: 500px;
-  }
-  .about-me h3 {
-    font-size: 22px;
-    letter-spacing: 6px;
+    max-width: 580px;
   }
   .about-me p {
-    font-size: 28px;
-    line-height: 32px;
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.6;
   }
 }
+
 @media only screen and (min-width: 768px) {
   .about-me {
-    width: 500px;
-    max-width: calc(100% - 70px);
+    max-width: 650px;
     transform: translateY(0%);
   }
-  .about-me h3 {
-    font-size: 25px;
-    letter-spacing: 7px;
-  }
   .about-me p {
-    font-size: 33px;
-    line-height: 36px;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.6;
   }
   .about-section {
     opacity: 1;
   }
 }
+
 @media only screen and (min-width: 1025px) {
   .about-section {
     width: var(--cWidth);
-    justify-content: right;
+    justify-content: flex-end;
     max-width: 1920px;
     height: auto;
     min-height: var(--vh);
@@ -91,7 +93,8 @@
     opacity: 1;
   }
   .about-container-wrapper {
-    width: 52%;
+    width: min(100%, 55%);
+    max-width: 700px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -99,15 +102,17 @@
   .about-me {
     padding: 0px;
     width: 100%;
+    max-width: 100%;
   }
   .about-me p {
-    font-size: 1.55vw;
-    line-height: 2.1vw;
+    font-size: clamp(18px, 1.45vw, 24px);
+    line-height: 1.65;
   }
 }
+
 @media only screen and (min-width: 1950px) {
   .about-me p {
-    font-size: 2.5rem;
-    line-height: 2.7rem;
+    font-size: 2.2rem;
+    line-height: 1.6;
   }
 }

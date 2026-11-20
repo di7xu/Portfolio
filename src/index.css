@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   font-family: "Geist", sans-serif;
 
@@ -29,6 +35,20 @@ h4,
 h5,
 h6 {
   font-family: "Geist", sans-serif;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-wrap: balance;
+}
+
+p,
+span,
+a,
+li,
+label,
+input,
+textarea {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 html,
@@ -115,14 +135,15 @@ body {
 }
 
 .split-line {
-  overflow: hidden;
+  overflow: visible;
+  max-width: 100%;
 }
 
 .split-h2 {
-  overflow: hidden;
+  overflow: visible;
   display: flex;
-  white-space: nowrap;
-  flex-wrap: nowrap;
+  white-space: normal;
+  flex-wrap: wrap;
 }
 
 .techstack {

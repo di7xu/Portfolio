@@ -10,51 +10,84 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Work = () => {
   useEffect(() => {
-    // Disable pinning on mobile/tablet to allow vertical scrolling
-    if (window.innerWidth <= 1024) return;
+    // Initial setup
+    const isMobileOrTablet = () => window.innerWidth <= 1024;
 
     let translateX: number = 0;
+    let timeline: gsap.core.Timeline | null = null;
 
     function setTranslateX() {
       const box = document.getElementsByClassName("work-box");
       if (box.length === 0) return;
-      const rectLeft = document
-        .querySelector(".work-container")!
-        .getBoundingClientRect().left;
+      const workContainer = document.querySelector(".work-container");
+      if (!workContainer || !box[0].parentElement) return;
+
+      const rectLeft = workContainer.getBoundingClientRect().left;
       const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
+      const parentWidth = box[0].parentElement.getBoundingClientRect().width;
       const padding: number =
-        parseInt(window.getComputedStyle(box[0]).padding) / 2;
+        parseInt(window.getComputedStyle(box[0]).padding) / 2 || 0;
       translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
     }
 
-    setTranslateX();
+    function initScroll() {
+      if (isMobileOrTablet()) {
+        if (timeline) {
+          timeline.kill();
+          timeline = null;
+        }
+        ScrollTrigger.getById("work")?.kill();
+        gsap.set(".work-flex", { clearProps: "all" });
+        gsap.set(".work-section", { clearProps: "all" });
+        return;
+      }
 
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".work-section",
-        start: "top top",
-        end: `+=${translateX}`,
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        id: "work",
-        invalidateOnRefresh: true,
-      },
-    });
+      setTranslateX();
 
-    timeline.to(".work-flex", {
-      x: -translateX,
-      ease: "none",
-    });
+      if (timeline) {
+        timeline.kill();
+        ScrollTrigger.getById("work")?.kill();
+      }
 
-    // Refresh ScrollTrigger after layout settles
-    ScrollTrigger.refresh();
+      timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".work-section",
+          start: "top top",
+          end: () => `+=${translateX}`,
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          id: "work",
+          invalidateOnRefresh: true,
+        },
+      });
+
+      timeline.to(".work-flex", {
+        x: () => -translateX,
+        ease: "none",
+      });
+
+      ScrollTrigger.refresh();
+    }
+
+    initScroll();
+
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        initScroll();
+      }, 150);
+    };
+
+    window.addEventListener("resize", handleResize);
 
     // Clean up
     return () => {
-      timeline.kill();
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+      timeline?.kill();
       ScrollTrigger.getById("work")?.kill();
     };
   }, []);
